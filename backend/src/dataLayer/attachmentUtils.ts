@@ -5,7 +5,7 @@ const XAWS = AWSXRay.captureAWS(AWS)
 
 //  Implement the fileStorage logic
 const s3 = new XAWS.S3({ signatureVersion: 'v4' })
-const bucketName = process.env.ATTACHMENTS_S3_BUCKET
+const bucketName = process.env.ATTACHMENT_S3_BUCKET
 
 
 function getAttachmentUrl(todoID: string): string {
@@ -14,7 +14,7 @@ function getAttachmentUrl(todoID: string): string {
 }
 
  async function getSignedUrl(todoID: string): Promise<string> {
-   return s3.getSignedUrl('putObject', {
+   return await s3.getSignedUrl('putObject', {
      Bucket: bucketName,
      Key: todoID,
      Expires: 60000

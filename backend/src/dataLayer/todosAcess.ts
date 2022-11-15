@@ -72,23 +72,24 @@ export class TodosAccess {
     return todoItem
   }
 
-  async updateTodoItem(todoId: string, todoUpdate: TodoUpdate) {
+  async updateTodoItem(todoId: string, userId: string, todoUpdate: Partial<
+    Omit<TodoItem, 'todoId' | 'createdAt' | 'userId' | 'attachmentUrl'>>) {
     logger.info(`Updating todo item ${todoId}`)
 
     await this.docClient
       .update({
         TableName: this.todosTable,
-        Key: {
-          todoId
-        },
+        Key: { todoId, userId },
         UpdateExpression: 'set #name = :name, dueDate = :dueDate, done = :done',
         ExpressionAttributeNames: {
           '#name': 'name'
         },
+        ConditionExpression: 'userId = :userId',
         ExpressionAttributeValues: {
           ':name': todoUpdate.name,
           ':dueDate': todoUpdate.dueDate,
-          ':done': todoUpdate.done
+          ':done': todoUpdate.done,
+          ':userId': userId
         }
       })
       .promise()
