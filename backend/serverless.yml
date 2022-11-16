@@ -117,7 +117,6 @@ functions:
       - Effect: Allow
         Action:
           - dynamodb:UpdateItem
-          - dynamodb:Query
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}
 
   DeleteTodo:
@@ -131,7 +130,7 @@ functions:
     iamRoleStatements:
       - Effect: Allow
         Action:
-          - dynamodb:*
+          - dynamodb:DeleteItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODOS_TABLE}
 
   # Provide property for setting up CORS, Authorizer, iamRoleStatements
@@ -151,7 +150,6 @@ functions:
       - Effect: Allow
         Action:
           - s3:PutObject
-          - s3:GetObject
         Resource: arn:aws:s3:::${self:provider.environment.ATTACHMENT_S3_BUCKET}
 
 resources:
