@@ -44,7 +44,7 @@ custom:
     api:
       info:
         version: v1.0.0
-        title: serverless-c4-todo-images-frontendtony api
+        title: serverless-tuzzi-api
         description: Serverless application
     models:
       - name: CreateTodoRequest
